@@ -1,6 +1,6 @@
 // src/providers/AuthProvider.tsx
 import React, { useEffect, useState } from 'react';
-import { auth } from '../config/firebaseConfig';
+import { auth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from '../config/firebaseConfig';
 import AuthContext from '../contexts/AuthContext';
 
 interface AuthProviderProps {
@@ -12,7 +12,7 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
     const login = async (email: string, password: string) => {
         try {
-            await auth.signInWithEmailAndPassword(email, password);
+            await signInWithEmailAndPassword(auth, email, password);
         } catch (error) {
             console.error('Error logging in:', error);
         }
@@ -20,14 +20,14 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
     const logout = async () => {
         try {
-            await auth.signOut();
+            await signOut(auth);
         } catch (error) {
             console.error('Error logging out:', error);
         }
     };
 
     useEffect(() => {
-        const unsubscribe = auth.onAuthStateChanged((user) => {
+        const unsubscribe = onAuthStateChanged(auth, (user) => {
             setCurrentUser(user);
         });
 
