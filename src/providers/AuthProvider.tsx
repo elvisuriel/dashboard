@@ -1,6 +1,6 @@
 // src/providers/AuthProvider.tsx
 import React, { useEffect, useState } from 'react';
-import { auth } from '../config/FirebaseConfig';
+import { auth } from '../config/firebaseConfig';
 import AuthContext from '../contexts/AuthContext';
 
 interface AuthProviderProps {

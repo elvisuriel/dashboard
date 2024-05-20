@@ -2,12 +2,12 @@
 import React, { useState } from 'react';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { addDoc, collection } from 'firebase/firestore';
-import { auth, firestore } from '../config/FirebaseConfig';
-
+import { auth, firestore } from '../config/firebaseConfig';
+import { useNavigate } from 'react-router-dom';
 const SignUpForm: React.FC = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-
+    const navigate = useNavigate();
     const handleSignUp = async () => {
         try {
             const { user } = await createUserWithEmailAndPassword(auth, email, password);
@@ -45,6 +45,15 @@ const SignUpForm: React.FC = () => {
             >
                 Registrarse
             </button>
+            <p className="text-center">
+                ¿Ya tienes una cuenta?{' '}
+                <button
+                    className="text-blue-500 underline"
+                    onClick={() => navigate('/login')}
+                >
+                    Iniciar Sesión
+                </button>
+            </p>
         </div>
     );
 };
