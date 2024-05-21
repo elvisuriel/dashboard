@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-// Icons
+// src/components/Sidebar.tsx
+import React, { useState } from 'react';
 import {
   RiHome3Line,
   RiFileCopyLine,
@@ -7,28 +7,19 @@ import {
   RiPieChartLine,
   RiMore2Fill,
   RiCloseFill,
-} from "react-icons/ri";
+} from 'react-icons/ri';
+import Profile from './Profile';
 
 const Sidebar = () => {
   const [showMenu, setShowMenu] = useState(false);
   return (
     <>
       <div
-        className={`bg-primary-900 h-full fixed lg:static w-[80%] md:w-[40%] lg:w-full transition-all z-50 duration-300 ${
-          showMenu ? "left-0" : "-left-full"
-        }`}
+        className={`bg-primary-900 h-full fixed lg:static w-[80%] md:w-[40%] lg:w-full transition-all z-50 duration-300 ${showMenu ? 'left-0' : '-left-full'
+          }`}
       >
         {/* Profile */}
-        <div className="flex flex-col items-center justify-center p-8 gap-2 h-[30vh]">
-          <img
-            src="https://img.freepik.com/foto-gratis/anciano-sonriente-gafas_23-2148740051.jpg"
-            className="w-20 h-20 object-cover rounded-full ring-2 ring-gray-300"
-          />
-          <h1 className="text-xl text-white font-bold">Jorge Luis Trejo</h1>
-          <p className="bg-primary-100 py-2 px-4 rounded-full text-white">
-            Pro level
-          </p>
-        </div>
+        <Profile /> {/* Usa el nuevo componente Profile */}
         {/* Nav */}
         <div className="bg-primary-300 p-8 rounded-tr-[100px] h-[70vh] overflow-y-scroll flex flex-col justify-between gap-8">
           <nav className="flex flex-col gap-8">

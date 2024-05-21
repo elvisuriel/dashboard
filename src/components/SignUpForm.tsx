@@ -1,59 +1,34 @@
-// src/components/SignUpForm.tsx
 import React, { useState } from 'react';
-import { createUserWithEmailAndPassword } from 'firebase/auth';
-import { addDoc, collection } from 'firebase/firestore';
-import { auth, firestore } from '../config/firebaseConfig';
-import { useNavigate } from 'react-router-dom';
-const SignUpForm: React.FC = () => {
+import { database, createUserWithEmailAndPassword } from '../config/firebaseConfig';
+
+const SignUpForm = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const navigate = useNavigate();
+
     const handleSignUp = async () => {
         try {
-            const { user } = await createUserWithEmailAndPassword(auth, email, password);
+            // Crea un nuevo usuario en Firebase Authentication
+            await createUserWithEmailAndPassword(auth, email, password);
 
-            // Almacena información adicional en Firestore
-            const userRef = collection(firestore, 'users');
-            await addDoc(userRef, {
-                uid: user.uid,
-                email: user.email,
+            // Agrega información adicional del usuario a la base de datos
+            await database.ref('users').push({
+                email: email,
+                // Otros datos del usuario, como nombre, dirección, etc.
             });
+
+            // Restablece los campos de entrada después de registrar al usuario
+            setEmail('');
+            setPassword('');
         } catch (error) {
-            console.error('Error signing up:', error);
+            console.error('Error al registrar usuario:', error);
         }
     };
 
     return (
-        <div className="max-w-sm mx-auto p-6 bg-white text-gray-900 rounded shadow-md">
-            <input
-                className="w-full mb-4 px-3 py-2 border border-gray-300 rounded"
-                type="email"
-                placeholder="Correo Electrónico"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-            />
-            <input
-                className="w-full mb-4 px-3 py-2 border border-gray-300 rounded"
-                type="password"
-                placeholder="Contraseña"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-            />
-            <button
-                className="w-full bg-blue-500 text-white py-2 px-4 rounded"
-                onClick={handleSignUp}
-            >
-                Registrarse
-            </button>
-            <p className="text-center">
-                ¿Ya tienes una cuenta?{' '}
-                <button
-                    className="text-blue-500 underline"
-                    onClick={() => navigate('/login')}
-                >
-                    Iniciar Sesión
-                </button>
-            </p>
+        <div>
+            <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+            <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+            <button onClick={handleSignUp}>Registrarse</button>
         </div>
     );
 };
