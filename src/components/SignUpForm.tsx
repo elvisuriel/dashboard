@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom'; // Importa Link de react-router-dom
 import { getDatabase, ref, push } from 'firebase/database';
 import { auth, createUserWithEmailAndPassword } from '../config/firebaseConfig';
 
@@ -29,10 +30,32 @@ const SignUpForm = () => {
     };
 
     return (
-        <div>
-            <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
-            <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
-            <button onClick={handleSignUp}>Registrarse</button>
+        <div className="max-w-md mx-auto mt-8 px-4">
+            <h2 className="text-2xl font-bold mb-4">Regístrate</h2>
+            <input
+                className="w-full mb-4 px-3 py-2 border border-gray-300 rounded"
+                type="email"
+                placeholder="Correo Electrónico"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+            />
+            <input
+                className="w-full mb-4 px-3 py-2 border border-gray-300 rounded"
+                type="password"
+                placeholder="Contraseña"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+            />
+            <button
+                className="w-full bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600"
+                onClick={handleSignUp}
+            >
+                Registrarse
+            </button>
+            <p className="text-center mt-4">
+                ¿Ya tienes una cuenta?{' '}
+                <Link to="/login" className="text-blue-500 underline">Iniciar Sesión</Link>
+            </p>
         </div>
     );
 };
