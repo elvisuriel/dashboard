@@ -54,7 +54,7 @@ const SignUpForm = () => {
             </button>
             <p className="text-center mt-4">
                 ¿Ya tienes una cuenta?{' '}
-                <Link to="/login" className="text-blue-500 underline">Iniciar Sesión</Link>
+                <Link to="/" className="text-blue-500 underline">Iniciar Sesión</Link>
             </p>
         </div>
     );

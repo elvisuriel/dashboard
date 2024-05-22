@@ -34,6 +34,7 @@ const App: React.FC = () => {
           <Route path="/" element={user ? <Navigate to="/dashboard" replace /> : <LoginForm />} />
           <Route path="/signup" element={<SignUpForm />} />
           <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
+
         </Routes>
       </AuthProvider>
     </Router>
