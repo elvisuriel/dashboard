@@ -4,16 +4,26 @@ import LoginForm from './components/LoginForm';
 import SignUpForm from './components/SignUpForm';
 import Dashboard from './components/Dashboard';
 import ProtectedRoute from './components/ProtectedRoute';
+import AuthProvider from './providers/AuthProvider';
 
 const App: React.FC = () => {
   return (
     <Router>
-      <Routes>
-        <Route path="/" element={<Navigate to="/dashboard" replace />} />
-        <Route path="/login" element={<LoginForm />} />
-        <Route path="/signup" element={<SignUpForm />} />
-        <Route path="/dashboard" element={<ProtectedRoute element={<Dashboard />} />} />
-      </Routes>
+      <AuthProvider>
+        <Routes>
+          <Route path="/" element={<LoginForm />} />
+          <Route path="/" element={<Navigate to="/dashboard" replace />} />
+          <Route path="/signup" element={<SignUpForm />} />
+          <Route
+            path="/dashboard"
+            element={
+              <ProtectedRoute>
+                <Dashboard />
+              </ProtectedRoute>
+            }
+          />
+        </Routes>
+      </AuthProvider>
     </Router>
   );
 };

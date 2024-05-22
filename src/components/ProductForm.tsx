@@ -1,16 +1,26 @@
 import React, { useState } from 'react';
-import { getDatabase, ref, push } from 'firebase/database'; // Importa las funciones necesarias desde firebase/database
+import { getDatabase, ref, push } from 'firebase/database';
+import Swal from 'sweetalert2';
 
-const ProductForm = () => {
+interface Product {
+    id: number;
+    name: string;
+    price: number;
+}
+interface ProductFormProps {
+    onAddProduct: (newProduct: Product) => void;
+}
+const ProductForm: React.FC<ProductFormProps> = ({ onAddProduct }) => {
     const [productName, setProductName] = useState('');
     const [productPrice, setProductPrice] = useState('');
     const [productAmount, setProductAmount] = useState('');
-    const handleSubmit = async (e) => {
+
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         try {
-            const database = getDatabase(); // Obtén la referencia a la base de datos
-            const productsRef = ref(database, 'products'); // Obtén la referencia a la ubicación de los productos
-            await push(productsRef, { // Usa la función push para agregar un nuevo producto
+            const database = getDatabase();
+            const productsRef = ref(database, 'products');
+            await push(productsRef, {
                 name: productName,
                 price: productPrice,
                 amount: productAmount
@@ -18,8 +28,24 @@ const ProductForm = () => {
             setProductName('');
             setProductPrice('');
             setProductAmount('');
+
+            // Mostrar la alerta de éxito
+            Swal.fire({
+                title: '¡Producto agregado!',
+                text: 'El producto se ha agregado correctamente.',
+                icon: 'success',
+                confirmButtonText: 'Aceptar'
+            });
         } catch (error) {
             console.error('Error al guardar el producto:', error);
+
+            // Mostrar la alerta de error
+            Swal.fire({
+                title: 'Error',
+                text: 'Hubo un error al guardar el producto.',
+                icon: 'error',
+                confirmButtonText: 'Aceptar'
+            });
         }
     };
 
@@ -33,7 +59,7 @@ const ProductForm = () => {
             />
             <input
                 type="text"
-                placeholder="Cantidad "
+                placeholder="Cantidad"
                 value={productAmount}
                 onChange={(e) => setProductAmount(e.target.value)}
             />

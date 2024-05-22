@@ -1,10 +1,16 @@
-// src/components/ProductTable.tsx
 import React, { useEffect, useState } from 'react';
 import { database } from '../config/firebaseConfig';
 import { ref, get } from 'firebase/database';
 
+interface Product {
+    id: string;
+    name: string;
+    price: number;
+    amount: number;
+}
+
 const ProductTable = () => {
-    const [products, setProducts] = useState([]);
+    const [products, setProducts] = useState<Product[]>([]);
 
     useEffect(() => {
         const fetchProducts = async () => {

@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { useAuth } from '../contexts/AuthContext';
+import { useAuth } from '../providers/AuthProvider';
 import { ref, set, get } from 'firebase/database';
 import { database } from '../config/firebaseConfig';
+
 
 const Profile = () => {
     const { currentUser } = useAuth();
@@ -67,6 +68,7 @@ const Profile = () => {
                         <button className="bg-blue-500 text-white px-4 py-2 rounded-md" onClick={() => setEditing(true)}>Edit</button>
                     )}
                 </div>
+
             </div>
             <div className="mt-4">
                 <label className="block text-sm font-medium text-gray-700">Name:</label>

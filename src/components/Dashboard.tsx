@@ -5,11 +5,17 @@ import { RiLineChartLine, RiHashtag } from 'react-icons/ri';
 import ProductForm from './ProductForm';
 import ProductTable from './ProductTable';
 
-const Dashboard = () => {
-  const [products, setProducts] = useState([]);
-  const [showProducts, setShowProducts] = useState(false);
+interface Product {
+  id: number;
+  name: string;
+  price: number;
+}
 
-  const handleAddProduct = (newProduct) => {
+const Dashboard = () => {
+  const [products, setProducts] = useState<Product[]>([]);
+  const [showProducts, setShowProducts] = useState<boolean>(false);
+
+  const handleAddProduct = (newProduct: Product) => {
     setProducts([...products, newProduct]);
   };
 
