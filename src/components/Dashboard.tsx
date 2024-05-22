@@ -1,9 +1,22 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Header from './Header';
 import Sidebar from './Sidebar';
 import { RiLineChartLine, RiHashtag } from 'react-icons/ri';
+import ProductForm from './ProductForm';
+import ProductTable from './ProductTable';
 
 const Dashboard = () => {
+  const [products, setProducts] = useState([]);
+  const [showProducts, setShowProducts] = useState(false);
+
+  const handleAddProduct = (newProduct) => {
+    setProducts([...products, newProduct]);
+  };
+
+  const handleShowProducts = () => {
+    console.log("Mostrar productos");
+    setShowProducts(true);
+  };
   return (
     <div className="grid lg:grid-cols-4 xl:grid-cols-6 min-h-screen">
       <Sidebar />
@@ -49,6 +62,16 @@ const Dashboard = () => {
                   Branding
                 </span>
               </div>
+            </div>
+          </div>
+          <div>
+            <h2>Dashboard</h2>
+            <h3>Agregar Producto</h3>
+            <ProductForm onAddProduct={handleAddProduct} />
+
+            <div>
+              <button onClick={handleShowProducts}>Ver productos</button>
+              {showProducts && <ProductTable />}
             </div>
           </div>
           {/* Card 3 */}

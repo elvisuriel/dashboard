@@ -1,10 +1,9 @@
-// src/components/Sidebar.tsx
 import React, { useState } from 'react';
 import {
   RiHome3Line,
-  RiFileCopyLine,
-  RiWalletLine,
-  RiPieChartLine,
+  RiBarChart2Fill,
+  RiMoneyDollarCircleFill,
+  RiPieChart2Line,
   RiMore2Fill,
   RiCloseFill,
 } from 'react-icons/ri';
@@ -27,30 +26,30 @@ const Sidebar = () => {
               href="#"
               className="flex items-center gap-4 text-white py-2 px-4 rounded-xl hover:bg-primary-900/50 transition-colors"
             >
-              <RiHome3Line /> Home
+              <RiHome3Line /> Resumen
             </a>
             <a
               href="#"
               className="flex items-center gap-4 text-white py-2 px-4 rounded-xl hover:bg-primary-900/50 transition-colors"
             >
-              <RiFileCopyLine /> Projects
+              <RiBarChart2Fill /> Estadísticas
             </a>
             <a
               href="#"
               className="flex items-center gap-4 text-white py-2 px-4 rounded-xl hover:bg-primary-900/50 transition-colors"
             >
-              <RiWalletLine /> Invoices
+              <RiMoneyDollarCircleFill /> Finanzas
             </a>
             <a
               href="#"
               className="flex items-center gap-4 text-white py-2 px-4 rounded-xl hover:bg-primary-900/50 transition-colors"
             >
-              <RiPieChartLine /> Reports
+              <RiPieChart2Line /> Reportes
             </a>
           </nav>
           <div className="bg-primary-900/50 text-white p-4 rounded-xl">
-            <p className="text-gray-400">Having troubles?</p>
-            <a href="#">Contact us</a>
+            <p className="text-gray-400">¿Necesitas ayuda?</p>
+            <a href="#">Contáctanos</a>
           </div>
         </div>
       </div>

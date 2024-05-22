@@ -55,7 +55,7 @@ const Profile = () => {
         <div className="bg-gray-100 p-4 rounded-lg shadow-md">
             <div className="flex items-center gap-4">
                 <img
-                    src="https://img.freepik.com/foto-gratis/anciano-sonriente-gafas_23-2148740051.jpg"
+                    src={imageUrl}
                     alt="Profile"
                     className="w-20 h-20 rounded-full ring-2 ring-gray-300"
                 />
