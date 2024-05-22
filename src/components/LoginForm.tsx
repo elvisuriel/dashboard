@@ -1,8 +1,8 @@
-// src/components/LoginForm.jsx
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../config/firebaseConfig';
+import { onAuthStateChanged } from 'firebase/auth'; // Importa onAuthStateChanged
 
 const LoginForm = () => {
     const [email, setEmail] = useState('');
@@ -18,6 +18,18 @@ const LoginForm = () => {
             console.error('Error logging in:', error);
         }
     };
+
+    // Agrega useEffect para verificar si ya hay un usuario autenticado al cargar la página
+    useEffect(() => {
+        const unsubscribe = onAuthStateChanged(auth, (user) => {
+            if (user) {
+                navigate('/dashboard');
+            }
+        });
+
+        return () => unsubscribe();
+    }, []); // Asegúrate de que useEffect solo se ejecute una vez al cargar el componente
+
 
     return (
         <div className="max-w-sm mx-auto p-6 bg-white text-gray-900 rounded shadow-md">
