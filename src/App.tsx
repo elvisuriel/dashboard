@@ -7,24 +7,29 @@ import ProtectedRoute from './components/ProtectedRoute';
 import AuthProvider from './providers/AuthProvider';
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from './config/firebaseConfig';
-import { User } from 'firebase/auth'; // Asegúrate de importar el tipo correcto de usuario desde firebase/auth
+import { User } from 'firebase/auth';
 
 const App: React.FC = () => {
-  const [loading, setLoading] = useState(true);
-  const [user, setUser] = useState<User | null>(null); // Definir el tipo de user como User | null
+  const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
-      setUser(user); // Actualizar el estado de user con el usuario autenticado
-      setLoading(false);
+      setUser(user);
     });
+
+    // Verificar si hay un usuario almacenado en el almacenamiento local
+    const storedUser = localStorage.getItem('user');
+    if (storedUser) {
+      setUser(JSON.parse(storedUser));
+    }
 
     return () => unsubscribe();
   }, []);
 
-  if (loading) {
-    return <div>Loading...</div>; // Muestra una pantalla de carga mientras se verifica la autenticación
-  }
+  // Guardar el estado de autenticación en el almacenamiento local cuando cambie
+  useEffect(() => {
+    localStorage.setItem('user', JSON.stringify(user));
+  }, [user]);
 
   return (
     <Router>
