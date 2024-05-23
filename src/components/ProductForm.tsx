@@ -7,10 +7,14 @@ interface Product {
     name: string;
     price: number;
 }
+
 interface ProductFormProps {
     onAddProduct: (newProduct: Product) => void;
+    isOpen: boolean;
+    onClose: () => void;
 }
-const ProductForm: React.FC<ProductFormProps> = ({ onAddProduct }) => {
+
+const ProductForm: React.FC<ProductFormProps> = ({ onAddProduct, isOpen, onClose }) => {
     const [productName, setProductName] = useState('');
     const [productPrice, setProductPrice] = useState('');
     const [productAmount, setProductAmount] = useState('');
@@ -36,6 +40,9 @@ const ProductForm: React.FC<ProductFormProps> = ({ onAddProduct }) => {
                 icon: 'success',
                 confirmButtonText: 'Aceptar'
             });
+
+            // Cerrar el modal después de agregar el producto
+            onClose();
         } catch (error) {
             console.error('Error al guardar el producto:', error);
 
@@ -49,28 +56,52 @@ const ProductForm: React.FC<ProductFormProps> = ({ onAddProduct }) => {
         }
     };
 
+    if (!isOpen) return null;
+
     return (
-        <form onSubmit={handleSubmit}>
-            <input
-                type="text"
-                placeholder="Nombre del producto"
-                value={productName}
-                onChange={(e) => setProductName(e.target.value)}
-            />
-            <input
-                type="text"
-                placeholder="Cantidad"
-                value={productAmount}
-                onChange={(e) => setProductAmount(e.target.value)}
-            />
-            <input
-                type="text"
-                placeholder="Precio del producto"
-                value={productPrice}
-                onChange={(e) => setProductPrice(e.target.value)}
-            />
-            <button type="submit">Agregar Producto</button>
-        </form>
+        <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
+            <div className="bg-white p-6 rounded-lg shadow-md space-y-4 w-full max-w-lg">
+                <h2 className="text-2xl mb-4">Agregar Producto</h2>
+                <form onSubmit={handleSubmit} className="space-y-4">
+                    <input
+                        type="text"
+                        placeholder="Nombre del producto"
+                        value={productName}
+                        onChange={(e) => setProductName(e.target.value)}
+                        className="w-full p-2 border border-gray-300 rounded"
+                    />
+                    <input
+                        type="text"
+                        placeholder="Cantidad"
+                        value={productAmount}
+                        onChange={(e) => setProductAmount(e.target.value)}
+                        className="w-full p-2 border border-gray-300 rounded"
+                    />
+                    <input
+                        type="text"
+                        placeholder="Precio del producto"
+                        value={productPrice}
+                        onChange={(e) => setProductPrice(e.target.value)}
+                        className="w-full p-2 border border-gray-300 rounded"
+                    />
+                    <div className="flex justify-end space-x-4">
+                        <button
+                            type="button"
+                            onClick={onClose}
+                            className="bg-gray-500 text-white p-2 rounded hover:bg-gray-600"
+                        >
+                            Cancelar
+                        </button>
+                        <button
+                            type="submit"
+                            className="bg-blue-500 text-white p-2 rounded hover:bg-blue-600"
+                        >
+                            Agregar Producto
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
     );
 };
 

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useAuth } from '../providers/AuthProvider';
 import { ref, set, get } from 'firebase/database';
 import { database } from '../config/firebaseConfig';
-
+import Swal from 'sweetalert2';
 
 const Profile = () => {
     const { currentUser } = useAuth();
@@ -42,6 +42,12 @@ const Profile = () => {
                     imageUrl,
                     email: currentUser.email
                 });
+                Swal.fire({
+                    title: '¡Datos actualizados!',
+                    text: 'Los datos se han agregado correctamente.',
+                    icon: 'success',
+                    confirmButtonText: 'Aceptar'
+                });
                 setSuccess('Profile updated successfully!');
                 setError('');
                 setEditing(false);
@@ -63,9 +69,9 @@ const Profile = () => {
                 <div>
                     <h1 className="text-2xl font-bold">{name}</h1>
                     {editing ? (
-                        <button className="bg-blue-500 text-white px-4 py-2 rounded-md" onClick={handleSave}>Save</button>
+                        <button className="bg-blue-500 text-white px-8 py-2 my-2 rounded-md" onClick={handleSave}>Guardar</button>
                     ) : (
-                        <button className="bg-blue-500 text-white px-4 py-2 rounded-md" onClick={() => setEditing(true)}>Edit</button>
+                        <button className="bg-blue-500 text-white px-8 py-2 my-2 rounded-md" onClick={() => setEditing(true)}>Editar</button>
                     )}
                 </div>
 
@@ -106,7 +112,7 @@ const Profile = () => {
                 )}
             </div>
             {error && <p className="text-red-500">{error}</p>}
-            {success && <p className="text-green-500">{success}</p>}
+
         </div>
     );
 };
