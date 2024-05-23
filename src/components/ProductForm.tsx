@@ -8,6 +8,7 @@ interface Product {
     name: string;
     price: number;
     amount: number;
+    date: string; // Añadir la propiedad date
 }
 
 interface ProductFormProps {
@@ -41,6 +42,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ onAddProduct, isOpen, onClose
                 name: productName,
                 price: Number(productPrice),
                 amount: Number(productAmount),
+                date: new Date().toISOString() // Añadir la fecha actual
             });
 
             const newProduct: Product = {
@@ -48,6 +50,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ onAddProduct, isOpen, onClose
                 name: productName,
                 price: Number(productPrice),
                 amount: Number(productAmount),
+                date: new Date().toISOString() // Añadir la fecha actual
             };
 
             onAddProduct(newProduct);

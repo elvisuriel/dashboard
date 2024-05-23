@@ -19,25 +19,39 @@ const EarningsChartProduct = () => {
             const productsRef = ref(database, `users/${userId}/products`);
 
             const productCounts: Record<string, number> = {
+                January: 0,
                 February: 0,
                 March: 0,
-                abril: 0,
-                may: 0
+                April: 0,
+                May: 0,
+                June: 0,
+                July: 0,
+                August: 0,
+                September: 0,
+                October: 0,
+                November: 0,
+                December: 0
             };
 
             onValue(productsRef, (snapshot) => {
                 const counts = { ...productCounts };
                 snapshot.forEach((childSnapshot) => {
                     const product = childSnapshot.val();
-                    const productDate = new Date(product.date); // Asegúrate de que el producto tenga un campo de fecha
+                    const productDate = new Date(product.date);
+                    console.log('Product Date:', productDate); // Verificar formato de fecha
+                    const monthIndex = productDate.getMonth();
+                    const month = new Intl.DateTimeFormat('es', { month: 'long' }).format(productDate);
+                    console.log('Month:', month); // Verificar el mes
 
-                    const month = productDate.toLocaleString('default', { month: 'long' });
-                    if (counts[month] !== undefined) {
+                    // Contar productos solo para los meses de febrero, marzo, abril y mayo
+                    if (monthIndex >= 1 && monthIndex <= 4) {
                         counts[month]++;
                     }
                 });
 
-                setChartData(Object.values(counts));
+                const lastFourMonths = Object.values(counts).slice(-4); // Últimos 4 meses
+                console.log('Product Counts:', lastFourMonths); // Verificar conteo de productos
+                setChartData(lastFourMonths);
             });
         };
 
@@ -45,7 +59,7 @@ const EarningsChartProduct = () => {
     }, [currentUser]);
 
     const data = {
-        labels: ['February', 'March', 'April', 'May',], // Últimos 4 meses en inglés
+        labels: ['Febrero', 'Marzo', 'Abril', 'Mayo'], // Últimos 4 meses
         datasets: [
             {
                 label: 'Cantidad de Productos',
@@ -72,4 +86,5 @@ const EarningsChartProduct = () => {
         </div>
     );
 };
+
 export default EarningsChartProduct;
