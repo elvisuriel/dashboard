@@ -5,9 +5,13 @@ import { getDatabase, ref, onValue } from 'firebase/database';
 import { useAuth } from '../providers/AuthProvider';
 
 Chart.register(...registerables);
-
+const monthNames = [
+    'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
+    'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'
+];
 const EarningsChartProduct = () => {
     const [chartData, setChartData] = useState<number[]>([]);
+    const [loading, setLoading] = useState<boolean>(true);
     const { currentUser } = useAuth();
 
     useEffect(() => {
@@ -19,18 +23,18 @@ const EarningsChartProduct = () => {
             const productsRef = ref(database, `users/${userId}/products`);
 
             const productCounts: Record<string, number> = {
-                January: 0,
-                February: 0,
-                March: 0,
-                April: 0,
-                May: 0,
-                June: 0,
-                July: 0,
-                August: 0,
-                September: 0,
-                October: 0,
-                November: 0,
-                December: 0
+                Enero: 0,
+                Febrero: 0,
+                Marzo: 0,
+                Abril: 0,
+                Mayo: 0,
+                Junio: 0,
+                Julio: 0,
+                Agosto: 0,
+                Septiembre: 0,
+                Octubre: 0,
+                Noviembre: 0,
+                Diciembre: 0
             };
 
             onValue(productsRef, (snapshot) => {
@@ -38,34 +42,37 @@ const EarningsChartProduct = () => {
                 snapshot.forEach((childSnapshot) => {
                     const product = childSnapshot.val();
                     const productDate = new Date(product.date);
-                    console.log('Product Date:', productDate); // Verificar formato de fecha
                     const monthIndex = productDate.getMonth();
-                    const month = new Intl.DateTimeFormat('es', { month: 'long' }).format(productDate);
-                    console.log('Month:', month); // Verificar el mes
+                    const monthName = monthNames[monthIndex];
 
-                    // Contar productos solo para los meses de febrero, marzo, abril y mayo
+                    // Contar productos solo para los meses de febrero, marzo, abril, y mayo
                     if (monthIndex >= 1 && monthIndex <= 4) {
-                        counts[month]++;
+                        counts[monthName] += product.amount; // Aumentar el contador con la cantidad del producto
+                        console.log(`Product added to ${monthName}:`, product);
+                        console.log(`Current count for ${monthName}:`, counts[monthName]);
                     }
                 });
 
-                const lastFourMonths = Object.values(counts).slice(-4); // Últimos 4 meses
-                console.log('Product Counts:', lastFourMonths); // Verificar conteo de productos
+                // Obtener los datos de los últimos cuatro meses en el orden correcto
+                const lastFourMonths = ['Febrero', 'Marzo', 'Abril', 'Mayo'].map(month => counts[month]);
+                console.log('Last Four Months Data:', lastFourMonths); // Verificar los datos antes de pasarlo a chartData
                 setChartData(lastFourMonths);
+                setLoading(false); // Marcar la carga como completa
             });
+
         };
 
         fetchProductData();
     }, [currentUser]);
 
     const data = {
-        labels: ['Febrero', 'Marzo', 'Abril', 'Mayo'], // Últimos 4 meses
+        labels: ['Febrero', 'Marzo', 'Abril', 'Mayo'], // Últimos 4 meses (incluyendo Mayo)
         datasets: [
             {
                 label: 'Cantidad de Productos',
                 data: chartData, // Datos obtenidos de la base de datos
                 backgroundColor: 'rgba(75,192,192,0.6)',
-                borderColor: 'rgba(75,192,192,1)',
+                borderColor: '#15e4e4',
                 borderWidth: 1,
             },
         ],
@@ -82,7 +89,13 @@ const EarningsChartProduct = () => {
 
     return (
         <div className="w-full h-64">
-            <Bar data={data} options={options} />
+            {loading ? (
+                <div className="text-center mt-8">
+                    <p className="text-gray-600">Cargando...</p>
+                </div>
+            ) : (
+                <Bar data={data} options={options} />
+            )}
         </div>
     );
 };

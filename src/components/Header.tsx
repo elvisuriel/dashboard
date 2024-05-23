@@ -10,7 +10,7 @@ const Header = () => {
   return (
     <header className="flex flex-col md:flex-row items-center justify-between gap-4">
       <h1 className="text-2xl md:text-3xl font-bold">
-        🌞 ¡Bienvenido!
+        ¡Bienvenido!
       </h1>
       <form className="flex flex-col md:flex-row items-center space-y-4 md:space-y-0 md:space-x-4 w-full md:w-auto">
         <div className="relative w-full md:w-auto">
