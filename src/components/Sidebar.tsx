@@ -32,13 +32,13 @@ const Sidebar = () => {
               href="#"
               className="flex items-center gap-4 text-white py-2 px-4 rounded-xl hover:bg-primary-900/50 transition-colors"
             >
-              <RiBarChart2Fill /> Estadísticas
+              <RiBarChart2Fill /> Ventas
             </a>
             <a
               href="#"
               className="flex items-center gap-4 text-white py-2 px-4 rounded-xl hover:bg-primary-900/50 transition-colors"
             >
-              <RiMoneyDollarCircleFill /> Finanzas
+              <RiMoneyDollarCircleFill /> Nómina
             </a>
             <a
               href="#"
