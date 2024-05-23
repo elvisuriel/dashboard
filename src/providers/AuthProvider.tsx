@@ -1,4 +1,3 @@
-// src/providers/AuthProvider.tsx
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { onAuthStateChanged, User } from 'firebase/auth';
 import { auth } from '../config/firebaseConfig';
@@ -46,3 +45,4 @@ export const useAuth = (): AuthContextType => {
 };
 
 export default AuthProvider;
+export { AuthContext };

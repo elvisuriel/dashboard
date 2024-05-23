@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { database } from '../config/firebaseConfig';
 import { ref, get } from 'firebase/database';
+import { useAuth } from '../providers/AuthProvider';
 
 interface Product {
     id: string;
@@ -11,13 +12,14 @@ interface Product {
 
 const ProductTable = () => {
     const [products, setProducts] = useState<Product[]>([]);
-    const [currentPage, setCurrentPage] = useState(1);
-    const productsPerPage = 5;
+    const [currentPage, setCurrentPage] = useState(0);
+    const { currentUser } = useAuth();
 
     useEffect(() => {
         const fetchProducts = async () => {
             try {
-                const productsRef = ref(database, 'products');
+                const userId = currentUser?.uid;
+                const productsRef = ref(database, `users/${userId}/products`);
                 const snapshot = await get(productsRef);
                 if (snapshot.exists()) {
                     const productsList = Object.keys(snapshot.val()).map(key => ({
@@ -34,25 +36,12 @@ const ProductTable = () => {
         };
 
         fetchProducts();
-    }, []);
+    }, [currentUser]);
 
-    const indexOfLastProduct = currentPage * productsPerPage;
-    const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
-    const currentProducts = products.slice(indexOfFirstProduct, indexOfLastProduct);
-
-    const totalPages = Math.ceil(products.length / productsPerPage);
-
-    const handleNextPage = () => {
-        if (currentPage < totalPages) {
-            setCurrentPage(currentPage + 1);
-        }
-    };
-
-    const handlePreviousPage = () => {
-        if (currentPage > 1) {
-            setCurrentPage(currentPage - 1);
-        }
-    };
+    const productsPerPage = 5;
+    const startIndex = currentPage * productsPerPage;
+    const endIndex = startIndex + productsPerPage;
+    const displayedProducts = products.slice(startIndex, endIndex);
 
     return (
         <div className="p-4 bg-white rounded-lg shadow-md">
@@ -66,7 +55,7 @@ const ProductTable = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {currentProducts.map((product) => (
+                    {displayedProducts.map((product) => (
                         <tr key={product.id} className="hover:bg-gray-50">
                             <td className="py-2 px-4 border-b">{product.name}</td>
                             <td className="py-2 px-4 border-b">{product.price}</td>
@@ -77,16 +66,16 @@ const ProductTable = () => {
             </table>
             <div className="flex justify-between mt-4">
                 <button
-                    onClick={handlePreviousPage}
-                    disabled={currentPage === 1}
-                    className="px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300 disabled:opacity-50"
+                    onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 0))}
+                    className="bg-blue-500 text-white p-2 rounded hover:bg-blue-600"
+                    disabled={currentPage === 0}
                 >
-                    Atrás
+                    Anterior
                 </button>
                 <button
-                    onClick={handleNextPage}
-                    disabled={currentPage === totalPages}
-                    className="px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300 disabled:opacity-50"
+                    onClick={() => setCurrentPage((prev) => (endIndex < products.length ? prev + 1 : prev))}
+                    className="bg-blue-500 text-white p-2 rounded hover:bg-blue-600"
+                    disabled={endIndex >= products.length}
                 >
                     Siguiente
                 </button>

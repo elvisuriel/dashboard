@@ -1,11 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { getDatabase, ref, push } from 'firebase/database';
 import Swal from 'sweetalert2';
+import { AuthContext } from '../providers/AuthProvider';
 
 interface Product {
-    id: number;
+    id: string;
     name: string;
     price: number;
+    amount: number;
 }
 
 interface ProductFormProps {
@@ -18,22 +20,41 @@ const ProductForm: React.FC<ProductFormProps> = ({ onAddProduct, isOpen, onClose
     const [productName, setProductName] = useState('');
     const [productPrice, setProductPrice] = useState('');
     const [productAmount, setProductAmount] = useState('');
+    const authContext = useContext(AuthContext);
+
+    if (!authContext) {
+        throw new Error('AuthContext must be used within an AuthProvider');
+    }
+
+    const { currentUser } = authContext;
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         try {
             const database = getDatabase();
-            const productsRef = ref(database, 'products');
-            await push(productsRef, {
+            const userId = currentUser?.uid;
+            if (!userId) {
+                throw new Error('User not authenticated');
+            }
+            const productsRef = ref(database, `users/${userId}/products`);
+            const newProductRef = await push(productsRef, {
                 name: productName,
-                price: productPrice,
-                amount: productAmount
+                price: Number(productPrice),
+                amount: Number(productAmount),
             });
+
+            const newProduct: Product = {
+                id: newProductRef.key as string,
+                name: productName,
+                price: Number(productPrice),
+                amount: Number(productAmount),
+            };
+
+            onAddProduct(newProduct);
             setProductName('');
             setProductPrice('');
             setProductAmount('');
 
-            // Mostrar la alerta de éxito
             Swal.fire({
                 title: '¡Producto agregado!',
                 text: 'El producto se ha agregado correctamente.',
@@ -41,12 +62,10 @@ const ProductForm: React.FC<ProductFormProps> = ({ onAddProduct, isOpen, onClose
                 confirmButtonText: 'Aceptar'
             });
 
-            // Cerrar el modal después de agregar el producto
             onClose();
         } catch (error) {
             console.error('Error al guardar el producto:', error);
 
-            // Mostrar la alerta de error
             Swal.fire({
                 title: 'Error',
                 text: 'Hubo un error al guardar el producto.',
