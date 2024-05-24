@@ -30,11 +30,14 @@ const App: React.FC = () => {
     <Router>
       <AuthProvider>
         <Routes>
-          {/* Ajusta la ruta de inicio para redirigir al dashboard si el usuario ya está autenticado */}
+          {/* Ruta de inicio: redirige al dashboard si el usuario ya está autenticado */}
           <Route path="/" element={user ? <Navigate to="/dashboard" replace /> : <LoginForm />} />
           <Route path="/signup" element={<SignUpForm />} />
-          <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
-
+          {/* Rutas protegidas */}
+          <Route path="/dashboard/*" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
+          {/* Otras rutas protegidas o públicas */}
+          {/* <ProtectedRoute path="/other" element={<OtherComponent />} /> */}
+          {/* <Route path="/public" element={<PublicComponent />} /> */}
         </Routes>
       </AuthProvider>
     </Router>

@@ -9,7 +9,12 @@
         "module": "commonjs",
         "strict": true,
         "esModuleInterop": true,
-        "skipLibCheck": true
+        "skipLibCheck": true,
+        "types": [
+            "react",
+            "react-dom",
+            "react-router-dom"
+        ]
     },
     "include": [
         "src"

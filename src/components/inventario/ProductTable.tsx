@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { database } from '../config/firebaseConfig';
+import { database } from '../../config/firebaseConfig';
 import { ref, get } from 'firebase/database';
-import { useAuth } from '../providers/AuthProvider';
+import { useAuth } from '../../providers/AuthProvider';
 
 interface Product {
     id: string;

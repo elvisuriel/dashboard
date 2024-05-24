@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react';
 import { getDatabase, ref, push } from 'firebase/database';
 import Swal from 'sweetalert2';
-import { AuthContext } from '../providers/AuthProvider';
+import { AuthContext } from '../../providers/AuthProvider';
 
 interface Product {
     id: string;

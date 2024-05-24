@@ -1,232 +1,42 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { Routes, Route, useNavigate } from 'react-router-dom';
 import Header from './Header';
 import Sidebar from './Sidebar';
-import { RiLineChartLine, RiHashtag } from 'react-icons/ri';
-import ProductForm from './ProductForm';
-import ProductTable from './ProductTable';
-import EarningsChart from './EarningsChart';
-import EarningsChartProduct from './EarningsChartProduct';
-interface Product {
-  id: string;
-  name: string;
-  price: number;
-  amount: number;
-}
-const Dashboard = () => {
-  const [products, setProducts] = useState<Product[]>([]);
-  const [showProducts, setShowProducts] = useState<boolean>(false);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const handleAddProduct = (newProduct: Product) => {
-    setProducts([...products, newProduct]);
+import Inventario from '../components/inventario/Inventario';
+import Ventas from '../components/ventas/Ventas';
+import Nomina from '../components/nomina/Nomina';
+
+const Dashboard: React.FC = () => {
+  const navigate = useNavigate();
+
+  // Función para manejar las redirecciones al hacer clic en los elementos del menú
+  const handleNavigate = (path: string) => {
+    navigate(path);
   };
 
-  const handleShowProducts = () => {
-    setShowProducts(!showProducts);
-  };
-
-  const openModal = () => setIsModalOpen(true);
-  const closeModal = () => setIsModalOpen(false);
   return (
     <div className="grid lg:grid-cols-4 xl:grid-cols-6 min-h-screen">
-      <Sidebar />
+      <Sidebar handleNavigate={handleNavigate} /> {/* Pasar la función como prop */}
       <main className="lg:col-span-3 xl:col-span-5 bg-gray-100 p-8 h-[100vh] overflow-y-scroll">
         <Header />
-
-        {/* Section 1 */}
-        <section className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-5 mt-10 gap-8">
-          {/* Card 1 */}
-          <div className="bg-primary-100 p-8 rounded-xl text-gray-300 flex flex-col gap-6 xl:col-span-2">
-            <RiLineChartLine className="text-5xl" />
-            <span className="text-5xl text-white">Inventario</span>
-            <span className="py-1 px-3 bg-primary-300/80 rounded-full">
-              Variación respecto al mes anterior
-            </span>
-            <div className=' bg-slate-300  p-1 rounded-lg'>
-              <EarningsChartProduct />
-            </div>
-
-          </div>
-          {/* Card 2 */}
-          <div className="xl:col-span-3 bg-primary-100 p-8 rounded-xl text-gray-300 flex flex-col gap-6">
-            <div className="p-4">
-              <h1 className="text-3xl mb-6">Inventario</h1>
-              <button
-                onClick={openModal}
-                className="bg-blue-500 text-white p-2 rounded hover:bg-blue-600"
-              >
-                Agregar Producto
-              </button>
-              <ProductForm
-                onAddProduct={handleAddProduct}
-                isOpen={isModalOpen}
-                onClose={closeModal}
-              />
-            </div>
-            <div className="mt-6">
-              <button
-                onClick={handleShowProducts}
-                className="  w-44 mb-4 bg-blue-500 text-white p-2 rounded hover:bg-blue-600"
-              >
-                {showProducts ? 'Cerrar' : 'Ver productos'}
-              </button>
-              {showProducts && <ProductTable />}
-            </div>
-          </div>
-
-        </section>
-
-        {/* Section 1 */}
-        <section className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-5 mt-10 gap-8">
-          {/* Card 1 */}
-          <div className="bg-primary-100 p-8 rounded-xl text-gray-300 flex flex-col gap-6 xl:col-span-2">
-            <RiLineChartLine className="text-5xl" />
-            <h4 className="text-2xl">Abril</h4>
-            <span className="text-5xl text-white">$ 250,000</span>
-            <span className="py-1 px-3 bg-primary-300/80 rounded-full">
-              - 10% Ganancias
-            </span>
-            <div className=' bg-slate-300  p-1 rounded-lg'>
-              <EarningsChart />
-            </div>
-
-          </div>
-          {/* Card 2 */}
-          <div className="xl:col-span-3 bg-primary-100 p-8 rounded-xl text-gray-300 flex flex-col gap-6">
-            <div className="p-4">
-              <h1 className="text-3xl mb-6">Inventario</h1>
-              <button
-                onClick={openModal}
-                className="bg-blue-500 text-white p-2 rounded hover:bg-blue-600"
-              >
-                Agregar Producto
-              </button>
-              <ProductForm
-                onAddProduct={handleAddProduct}
-                isOpen={isModalOpen}
-                onClose={closeModal}
-              />
-            </div>
-            <div className="mt-6">
-              <button
-                onClick={handleShowProducts}
-                className="  w-44 mb-4 bg-blue-500 text-white p-2 rounded hover:bg-blue-600"
-              >
-                {showProducts ? 'Cerrar' : 'Ver productos'}
-              </button>
-              {showProducts && <ProductTable />}
-            </div>
-          </div>
-
-        </section>
-        {/* Section 2 */}
-        <section className="grid grid-cols-1 md:grid-cols-2 mt-10 gap-8">
-          <div>
-            <h1 className="text-2xl font-bold mb-8">Recent invoices</h1>
-            <div className="bg-white p-8 rounded-xl shadow-2xl mb-8 flex flex-col gap-8">
-              {/* Card 1 */}
-              <div className="grid grid-cols-1 xl:grid-cols-4 items-center gap-4 mb-4">
-                <div className="col-span-2 flex items-center gap-4">
-                  <img
-                    src="https://img.freepik.com/foto-gratis/hombre-joven-hermoso-contento-camiseta-azul-que-senala-lado_1262-17845.jpg"
-                    className="w-14 h-14 object-cover rounded-xl"
-                  />
-                  <div>
-                    <h3 className="font-bold">Alexander Williams</h3>
-                    <p className="text-gray-500">JQ Holdings</p>
-                  </div>
-                </div>
-                <div>
-                  <span className="bg-green-100 text-green-800 py-1 px-3 rounded-full font-medium">
-                    Paid
-                  </span>
-                </div>
-                <div>
-                  <span className="font-bold">&euro; 1,200.87</span>
-                </div>
-              </div>
-              {/* Card 2 */}
-              <div className="grid grid-cols-1 xl:grid-cols-4 items-center gap-4 mb-4">
-                <div className="col-span-2 flex items-center gap-4">
-                  <img
-                    src="https://img.freepik.com/foto-gratis/alegre-joven-deportista-posando-mostrando-pulgares-arriba-gesto_171337-8194.jpg"
-                    className="w-14 h-14 object-cover rounded-xl"
-                  />
-                  <div>
-                    <h3 className="font-bold">Jhon Philips</h3>
-                    <p className="text-gray-500">Inchor Techs</p>
-                  </div>
-                </div>
-                <div>
-                  <span className="bg-red-100 text-red-800 py-1 px-3 rounded-full font-medium">
-                    Late
-                  </span>
-                </div>
-                <div>
-                  <span className="font-bold">&euro; 12,998.88</span>
-                </div>
-              </div>
-            </div>
-            <div className="bg-primary-900 text-gray-300 p-8 rounded-xl shadow-2xl flex items-center justify-between flex-wrap xl:flex-nowrap gap-8">
-              <div>
-                <RiHashtag className="text-4xl -rotate-12" />
-              </div>
-              <div>
-                <h5 className="font-bold text-white">Engage with clients</h5>
-                <h5>Join slack channel</h5>
-              </div>
-              <div className="w-full xl:w-auto">
-                <button className="bg-primary-100 py-2 px-6 rounded-xl text-white w-full">
-                  Join now
-                </button>
-              </div>
-            </div>
-          </div>
-          <div>
-            <h1 className="text-2xl font-bold mb-8">Recommended project</h1>
-            <div className="bg-white p-8 rounded-xl shadow-2xl mb-8 flex flex-col gap-8">
-              <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-4">
-                <div className="flex items-center gap-4">
-                  <img
-                    src="https://img.freepik.com/foto-gratis/retrato-mujer-mayor-cerca_23-2149207185.jpg"
-                    className="w-14 h-14 object-cover rounded-full"
-                  />
-                  <div>
-                    <h3 className="font-bold">Thomas Martin</h3>
-                    <p className="text-gray-500">Updated 10m ago</p>
-                  </div>
-                </div>
-                <div>
-                  <span className="bg-primary-100 py-2 px-4 rounded-full text-white">
-                    Design
-                  </span>
-                </div>
-              </div>
-              <div>
-                <h5 className="text-lg font-bold">
-                  Need a designer to form branding essentials for my business.
-                </h5>
-                <p className="text-gray-500">
-                  Looking for a talented brand designer to create all the
-                  branding materials my new startup.
-                </p>
-              </div>
-              <div className="bg-primary-100/10 flex flex-col md:flex-row items-center justify-between gap-4 py-8 px-4 rounded-lg">
-                <div>
-                  <sup className="text-sm text-gray-500">&euro;</sup>{" "}
-                  <span className="text-2xl font-bold mr-2">8,700</span>
-                  <span className="text-sm text-gray-500">/ month</span>
-                </div>
-                <div>
-                  <span className="border border-primary-100 text-primary-100 py-2 px-4 rounded-full">
-                    Full time
-                  </span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
+        <Routes>
+          <Route index element={<DashboardHome />} />
+          <Route path="inventario" element={<Inventario />} />
+          <Route path="ventas" element={<Ventas />} />
+          <Route path="nomina" element={<Nomina />} />
+        </Routes>
       </main>
     </div>
   );
-}
+};
+
+const DashboardHome: React.FC = () => {
+  return (
+    <>
+      <h1 className="text-2xl font-bold">Bienvenido al Dashboard</h1>
+      <p>Selecciona una sección del menú para ver los detalles.</p>
+    </>
+  );
+};
+
 export default Dashboard;
