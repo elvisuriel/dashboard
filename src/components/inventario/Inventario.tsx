@@ -28,7 +28,7 @@ const Inventario: React.FC = () => {
   const closeModal = () => setIsModalOpen(false);
 
   useEffect(() => {
-    console.log('Inventario component loaded.');
+
   }, []);
 
   return (

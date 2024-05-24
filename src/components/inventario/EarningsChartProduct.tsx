@@ -3,13 +3,16 @@ import { Bar } from 'react-chartjs-2';
 import { Chart, registerables } from 'chart.js';
 import { getDatabase, ref, onValue } from 'firebase/database';
 import { useAuth } from '../../providers/AuthProvider';
+import Loader from '../Loader';
 
 Chart.register(...registerables);
+
 const monthNames = [
     'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
     'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'
 ];
-const EarningsChartProduct = () => {
+
+const EarningsChartProduct: React.FC = () => {
     const [chartData, setChartData] = useState<number[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
     const { currentUser } = useAuth();
@@ -47,19 +50,15 @@ const EarningsChartProduct = () => {
 
                     // Contar productos solo para los meses de febrero, marzo, abril, y mayo
                     if (monthIndex >= 1 && monthIndex <= 4) {
-                        counts[monthName] += product.amount; // Aumentar el contador con la cantidad del producto
-                        console.log(`Product added to ${monthName}:`, product);
-                        console.log(`Current count for ${monthName}:`, counts[monthName]);
+                        counts[monthName] += product.amount;
                     }
                 });
 
                 // Obtener los datos de los últimos cuatro meses en el orden correcto
                 const lastFourMonths = ['Febrero', 'Marzo', 'Abril', 'Mayo'].map(month => counts[month]);
-                console.log('Last Four Months Data:', lastFourMonths); // Verificar los datos antes de pasarlo a chartData
                 setChartData(lastFourMonths);
-                setLoading(false); // Marcar la carga como completa
+                setLoading(false);
             });
-
         };
 
         fetchProductData();
@@ -90,9 +89,7 @@ const EarningsChartProduct = () => {
     return (
         <div className="w-full h-64">
             {loading ? (
-                <div className="text-center mt-8">
-                    <p className="text-gray-600">Cargando...</p>
-                </div>
+                <Loader />
             ) : (
                 <Bar data={data} options={options} />
             )}

@@ -63,7 +63,7 @@ const Profile: React.FC = () => {
     };
 
     if (loading) {
-        return <Loader />; // Muestra el Loader mientras los datos se están cargando
+        return <Loader />;
     }
 
     return (

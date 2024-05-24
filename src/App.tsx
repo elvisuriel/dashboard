@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
-import LoginForm from './components/LoginForm';
-import SignUpForm from './components/SignUpForm';
+import LoginForm from './components/navegacion/LoginForm';
+
 import Dashboard from './components/Dashboard';
 import ProtectedRoute from './components/ProtectedRoute';
 import AuthProvider from './providers/AuthProvider';
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from './config/firebaseConfig';
 import { User } from 'firebase/auth';
+import SignUpForm from './components/navegacion/SignUpForm';
 
 const App: React.FC = () => {
   const [loading, setLoading] = useState(true);
