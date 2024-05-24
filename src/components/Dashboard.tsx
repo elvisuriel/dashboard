@@ -6,6 +6,7 @@ import Inventario from '../components/inventario/Inventario';
 import Ventas from '../components/ventas/Ventas';
 import Nomina from '../components/nomina/Nomina';
 
+
 const Dashboard: React.FC = () => {
   const navigate = useNavigate();
 
@@ -16,6 +17,7 @@ const Dashboard: React.FC = () => {
 
   return (
     <div className="grid lg:grid-cols-4 xl:grid-cols-6 min-h-screen">
+
       <Sidebar handleNavigate={handleNavigate} /> {/* Pasar la función como prop */}
       <main className="lg:col-span-3 xl:col-span-5 bg-gray-100 p-8 h-[100vh] overflow-y-scroll">
         <Header />
