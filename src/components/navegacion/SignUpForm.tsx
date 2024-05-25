@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { useForm, SubmitHandler } from 'react-hook-form';
+import Swal from 'sweetalert2';
 import { auth, createUserWithEmailAndPassword } from '../../config/firebaseConfig';
 import FormCard from './FormCard';
 
@@ -11,6 +12,7 @@ interface SignUpFormInputs {
 
 const SignUpForm: React.FC = () => {
     const { register, handleSubmit, formState: { errors } } = useForm<SignUpFormInputs>();
+    const navigate = useNavigate();
 
     const handleSignUp: SubmitHandler<SignUpFormInputs> = async (data) => {
         try {
@@ -19,8 +21,25 @@ const SignUpForm: React.FC = () => {
 
             // Restablece los campos de entrada después de registrar al usuario
             resetForm();
+
+            // Muestra una alerta de éxito
+            Swal.fire({
+                title: '¡Usuario registrado!',
+                text: 'Se ha registrado correctamente.',
+                icon: 'success',
+                confirmButtonText: 'Aceptar'
+            }).then(() => {
+                // Redirige al formulario de iniciar sesión después de cerrar la alerta
+                navigate('/');
+            });
         } catch (error) {
             console.error('Error al registrar usuario:', error);
+            Swal.fire({
+                title: 'Error',
+                text: 'Hubo un problema al registrar al usuario. "usuario ya existe',
+                icon: 'error',
+                confirmButtonText: 'Aceptar'
+            });
         }
     };
 
@@ -31,6 +50,7 @@ const SignUpForm: React.FC = () => {
     return (
         <FormCard
             title="Regístrate"
+
             onSubmit={handleSubmit(handleSignUp)}
             submitButtonText="Registrarse"
             Steps={[(

@@ -71,7 +71,7 @@ const FormCard: React.FC<FormCardProps> = ({
                             )}
 
                             {StepsCount === Steps.length - 1 ? (
-                                <button className="formButton w-full bg-blue-500 text-white" title="Enviar" type="submit">
+                                <button className="formButton w-full bg-purple-500 text-white" title="Enviar" type="submit">
                                     {submitButtonText} {/* Usar el texto del botón pasado como prop */}
                                 </button>
                             ) : (
