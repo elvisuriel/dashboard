@@ -5,7 +5,7 @@ interface FormCardProps {
     className?: string;
     showButtons?: boolean;
     onSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
-    submitButtonText?: string; // Nueva prop para el texto del botón de envío
+    submitButtonText?: string;
     Steps: ReactNode[];
     StepsCount: number;
     setStepsCount: React.Dispatch<React.SetStateAction<number>>;
@@ -18,7 +18,7 @@ const FormCard: React.FC<FormCardProps> = ({
     className,
     showButtons = true,
     onSubmit,
-    submitButtonText = 'Enviar', // Valor predeterminado para el texto del botón de envío
+    submitButtonText = 'Enviar',
     Steps,
     StepsCount,
     setStepsCount,

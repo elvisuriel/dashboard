@@ -33,11 +33,40 @@ const Dashboard: React.FC = () => {
 };
 
 const DashboardHome: React.FC = () => {
+  const sections = [
+    {
+      title: 'Inventario',
+      description: 'Gestiona el inventario de productos, controla existencias y actualiza la disponibilidad.',
+    },
+    {
+      title: 'Ventas',
+      description: 'Administra las ventas, genera facturas y realiza seguimientos a los pedidos de clientes.',
+    },
+    {
+      title: 'Nómina',
+      description: 'Gestiona la nómina de los empleados, incluyendo sueldos, bonificaciones y deducciones.',
+    },
+    {
+      title: 'Reportes',
+      description: 'Genera reportes detallados sobre ventas, inventario, nómina y otros aspectos importantes.',
+    },
+  ];
+
   return (
-    <>
-      <h1 className="text-2xl font-bold">Bienvenido al Dashboard</h1>
-      <p>Selecciona una sección del menú para ver los detalles.</p>
-    </>
+    <div className="relative bg-cover bg-center min-h-screen" >
+      <div className="container mx-auto p-4 bg-white bg-opacity-70 rounded-lg">
+        <h1 className="text-2xl font-bold mb-4">Bienvenido al Dashboard</h1>
+        <p className="mb-8">Selecciona una sección del menú para ver los detalles.</p>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {sections.map((section) => (
+            <div key={section.title} className="bg-white rounded-lg shadow-md p-6">
+              <h2 className="text-xl font-semibold mb-2">{section.title}</h2>
+              <p>{section.description}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
   );
 };
 
