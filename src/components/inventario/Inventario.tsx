@@ -33,7 +33,7 @@ const Inventario: React.FC = () => {
 
   return (
     <section className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-5 mt-10 gap-8">
-      <div className="bg-primary-100 p-8 rounded-xl text-gray-300 flex flex-col gap-6 xl:col-span-2 ">
+      <div className=" p-8 rounded-xl text-gray-300 flex flex-col gap-6 xl:col-span-2 " style={{ backgroundColor: "#5FCDFE" }}>
         <RiLineChartLine className="text-5xl" />
         <span className="text-5xl text-white">Inventario</span>
         <span className="py-1 px-3 bg-primary-300/80 rounded-full">
@@ -43,7 +43,7 @@ const Inventario: React.FC = () => {
           <EarningsChartProduct />
         </div>
       </div>
-      <div className="xl:col-span-3 bg-primary-100 p-8 rounded-xl text-gray-300 flex flex-col gap-6" style={{ backgroundImage: "url('https://res.cloudinary.com/dybws2ubw/image/upload/t_Dashbordn/v1716607785/Dashboardl_m7bwrz.png') " }}>
+      <div className="xl:col-span-3 bg-primary-100 p-8 rounded-xl text-gray-300 flex flex-col gap-6" style={{ backgroundImage: "url('https://res.cloudinary.com/dybws2ubw/image/upload/v1718106782/sistemas-de-inventarios_u2khp4.png') " }}>
         <div className="p-4">
           <h1 className="text-3xl mb-6">Inventario</h1>
           <button
